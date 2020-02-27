@@ -1,0 +1,1 @@
+<gmapplication-notifications department_id="{{ auth()->user()->department_id }}"></gmapplication-notifications>

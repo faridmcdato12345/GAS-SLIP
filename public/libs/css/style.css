@@ -1,0 +1,28 @@
+.hidden-xs:hover,.hidden-xs a:hover{
+    cursor: pointer;
+}
+.user-image{
+    display: inline-block;
+    padding: 0;
+    font-size: 12px;
+    font-weight: lighter !important;
+    line-height: 50px;
+    color: #fff !important;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 50px;
+    position: relative;
+    height: 50px;
+    width: 50px;
+}
+.user-panel .image {
+    padding-left: 0rem !important;
+}
+.sidebar-dark-primary{
+    background-color: #37375A !important;
+}
+.dt-button{
+    margin: 0 5px;
+    padding: 5px 20px !important;
+}
