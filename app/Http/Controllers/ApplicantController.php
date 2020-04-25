@@ -107,7 +107,7 @@ class ApplicantController extends Controller
     {
         $applicant = Applicant::findOrFail($id);
         $applicant->update($request->all());
-        return response()->json(['success'=>'Product saved successfully.']);
+        return response()->json(['success'=>'Applicant saved successfully.']);
     }
 
     /**

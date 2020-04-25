@@ -2052,7 +2052,7 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     Echo.channel('application-tracker').listen('NewMessage', function (application) {
-      if (application.dm_flag == 1) {
+      if (application.dm_flag == 1 || _this.department_id == application.department_id) {
         _this.showAlert = true;
       }
     });
@@ -2121,7 +2121,7 @@ Vue.use(vue_timeago__WEBPACK_IMPORTED_MODULE_0__["default"], {
 
       if (application.dm_flag == 1) {
         _this.notifications.unshift({
-          description: application.applicant.name + ' is applying for gas slip',
+          description: application.applicant.name + ' is applying for gas slip and was approved by the department manager',
           url: '/home' // time: new Date()
 
         });
@@ -2130,6 +2130,26 @@ Vue.use(vue_timeago__WEBPACK_IMPORTED_MODULE_0__["default"], {
 
         if (playPromise !== undefined) {
           playPromise.then(function (_) {
+            x.play();
+          })["catch"](function (error) {
+            x.play();
+          });
+        }
+
+        document.getElementById('notifyBell').style.color = "red";
+      }
+
+      if (application.dm_flag == 0) {
+        _this.notifications.unshift({
+          description: application.applicant.name + ' is applying for gas slip under your department',
+          url: '/general_manager/application' // time: new Date()
+
+        });
+
+        var _playPromise = x.play();
+
+        if (_playPromise !== undefined) {
+          _playPromise.then(function (_) {
             x.play();
           })["catch"](function (error) {
             x.play();

@@ -21,9 +21,8 @@
         mounted() {
             Echo.channel('application-tracker')
             .listen('NewMessage', (application) => {
-                if (application.dm_flag == 1) {
+                if (application.dm_flag == 1 || this.department_id == application.department_id) {
                     this.showAlert = true
-                    
                 }
             });
         }

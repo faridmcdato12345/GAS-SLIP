@@ -50,9 +50,15 @@
             /* top: -4px!important; */
             margin-top: -4px;
         }
-        .dropdown-menu{
-            margin-right: 22%!important;
+        .dropdown-menu {
+            margin-right: 29%!important;
             margin-top: -1%!important;
+        }
+        @media screen and (max-width:1367px){
+            .dropdown-menu {
+                margin-right: 26.5%!important;
+                margin-top: -1%!important;
+            }
         }
     </style>
 </head>
@@ -72,6 +78,11 @@
                         <li style="display:none;"><a href="{{ url('/login') }}">Login</a></li>
                         <li style="display:none;"><a href="{{ url('/register') }}">Register</a></li>
                     @else
+                    @if(Auth::user()->role_id == 4)
+                    <div>
+                        @include('partials.gmnotifications-dropdown')
+                    </div>
+                    @endif
                     @if(Auth::user()->role_id == 2)
                         <li class="nav-item"><a class="nav-link btn btn-danger" style="color:white;" href="{{ url('/gas_slip_emergency') }}">EMERGENCY GAS SLIP</a></li>
                         <li class="nav-item"><a class="nav-link gas_slip" id="gas_slip" href="{{ url('/gas_slip') }}">GAS SLIP</a></li>
@@ -83,11 +94,6 @@
                     @if(Auth::user()->role_id == 3)
                         @include('partials.notifications-dropdown')
                         <li class="nav-item"><a class="nav-link btn btn-danger" style="color:white;" href="{{ url('/applicant_disapproved') }}">Disapproved</a></li>
-                    @endif
-                    @if(Auth::user()->role_id == 4)
-                    <div>
-                        @include('partials.gmnotifications-dropdown')
-                    </div>
                     @endif
                     <li class="dropdown user user-menu">
                         <a href="{{route('userprofile.index')}}" class="btn btn-default btn-flat nav-link" style="width:100%;">Profile</a>

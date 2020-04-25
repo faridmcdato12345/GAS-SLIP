@@ -48,6 +48,7 @@ Route::group(['middleware'=>'admin'], function (){
     Route::post('/report/print','ReportController@printReport')->name('report.print');
     Route::get('/department_manager','HomeController@getDmapplication')->name('dm.applicant');
     Route::get('/general_manager','HomeController@getGmApplication')->name('gm.applicant');
+    Route::get('/general_manager/application','HomeController@ogmDepartmentShowApplicant')->name('general_manager.application');
     Route::get('/department_manager/{id}/gm_disapproved','gmDisapprovedController@edit')->name('gm_disapprove.edit');
     Route::patch('/department_manager/{id}','HomeController@update')->name('dm.update');
     Route::patch('/department_manager/{id}/approve/','HomeController@approve')->name('application.approve');
@@ -62,10 +63,13 @@ Route::group(['middleware'=>'admin'], function (){
     Route::patch('/gas_slip_emergency/{id}','gasSlipController@update')->name('gas_slip_emergency.update');
     Route::post('/gas_slip_save','gasSlipController@gas_slip_get_info')->name('gas_slip_get_info');
     Route::get('/applicant_disapproved','HomeController@getGmApplicationDisapprove')->name('applicant.disapproved');
-    
+    Route::patch('/general_manager/application/{id}/approve/','HomeController@gmapproveApplication')->name('application.gmapproveApplicant');
+    Route::patch('/general_manager/application/{id}/disapprove/','HomeController@gmdisapproveApplication')->name('application.gmdisapproveApplicant');
 
     Route::get('/home', 'HomeController@index')->name('home.index');
     Route::post('/home', 'HomeController@getReportDate')->name('home.getReportDate');
+
+    
 });
 Route::resource('/applications', 'ApplicationController');
 Route::get('/applications/get/{application}','ApplicationController@getApplicant')->name('applications.getApplicant');

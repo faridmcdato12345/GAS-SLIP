@@ -13,6 +13,7 @@ use App\Application;
 use function compact;
 use Illuminate\Http\Request;
 use App\Events\OrderStatusChanged;
+use App\Events\NewMessage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -85,7 +86,12 @@ class ApplicationController extends Controller
         $application_id = Application::latest()->first()->id;
         $application = Application::where('id','=',$application_id)->get();
         $id = Application::latest()->first();
-        event(new OrderStatusChanged($id));
+        if($id->department_id == 2){
+            event(new NewMessage($id));
+        }
+        else{
+            event(new OrderStatusChanged($id));
+        }
         Session::flash('created_user','Your request is submitted.');
         return redirect('applications');
     }

@@ -66,7 +66,9 @@
       <div class="col-sm">
         <p>Recommended by:</p>
         <div style="height:20px;position:relative;">
-        <img src="{{asset('img/'.$signature.'')}}" alt="signature" style="top:-30px;width:50%;display:block;position:relative;margin:0 auto;">
+            @if($signature != null)
+            <img src="{{asset('img/'.$signature.'')}}" alt="signature" style="top:-30px;width:50%;display:block;position:relative;margin:0 auto;">
+            @endif
             <hr>
         </div>
         <div style="text-align:center">

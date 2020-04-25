@@ -45,7 +45,7 @@
                 console.log(application)
                 if (application.dm_flag == 1) {
                     this.notifications.unshift({
-                        description: application.applicant.name + ' is applying for gas slip',
+                        description: application.applicant.name + ' is applying for gas slip and was approved by the department manager',
                         url: '/home'
                         // time: new Date()
                     })
@@ -60,6 +60,24 @@
                     }
                     document.getElementById('notifyBell').style.color = "red";
                 }
+                if(application.dm_flag == 0){
+                    this.notifications.unshift({
+                        description: application.applicant.name + ' is applying for gas slip under your department',
+                        url: '/general_manager/application'
+                        // time: new Date()
+                    })
+                    let playPromise = x.play();
+                    if(playPromise !== undefined){
+                        playPromise.then(_ =>{
+                            x.play();
+                        })
+                        .catch(error=>{
+                            x.play();
+                        })
+                    }
+                    document.getElementById('notifyBell').style.color = "red";
+                }
+                
             });
         }
     }

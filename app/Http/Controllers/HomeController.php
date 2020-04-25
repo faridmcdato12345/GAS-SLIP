@@ -104,6 +104,20 @@ class HomeController extends Controller
         event(new OrderStatusChanged($user));
         return response()->json(['success'=>'update success!']);
     }
+    public function gmapproveApplication($id){
+        $user = Application::findOrFail($id);
+        $user->gm_flag = '1';
+        $user->dm_flag = '1';
+        $user->save();
+        event(new CashierNotice($user));
+        return response()->json(['success'=>'status updated.']);
+    }
+    public function gmdisapproveApplication($id, Request $request){
+        $user = Application::findOrFail($id);
+        $user->update($request->all());
+        event(new OrderStatusChanged($user));
+        return response()->json(['success'=>'update success!']);
+    }
     public function getGmApplication(Request $request){
         $gmapplication = Application::where('dm_flag','=','1')->where('gm_flag','=','0')->orderBy('created_at','desc')->get();
         if ($request->ajax()) {
@@ -160,9 +174,40 @@ class HomeController extends Controller
         $input['gas_slip_flag'] = '1';
         $gas_slip->update($input);
         $gas_slip = Application::where('id','=',$request->id)->get();
-        $departmentManager = User::where('department_id',$gas_slip[0]->department_id)->where('role_id','=','3')->get();
-        $dmName = $departmentManager[0]->name;
-        $signature = $departmentManager[0]->signature->path;
+        if($gas_slip[0]->department_id == 2){
+            $dmName = '';
+            $signature = '';
+        }
+        else{
+            $departmentManager = User::where('department_id',$gas_slip[0]->department_id)->where('role_id','=','3')->get();
+            $dmName = $departmentManager[0]->name;
+            $signature = $departmentManager[0]->signature->path;
+        }
         return view('gas_slip_print',compact('gas_slip','dmName','signature'));
+    }
+    public function ogmDepartmentShowApplicant(Request $request){
+        $departmentId = Auth::user()->department_id;
+        $dmapplication = Application::where('dm_flag','=','0')->where('gm_flag','=','0')->where('emergency','=','0')->where('department_id','=',$departmentId)->get();
+        if ($request->ajax()) {
+                
+            return Datatables::of($dmapplication)
+                    ->addIndexColumn()
+                    ->editColumn('applicant_id', function($row){
+                        $applicantName = DB::table('applicants')->where('id',$row->applicant_id)->value('name');
+                        return $applicantName;
+                    })
+                    ->editColumn('department_id', function($row){
+                        $departmentName = DB::table('departments')->where('id',$row->department_id)->value('name');
+                        return $departmentName;
+                    })
+                    ->addColumn('actions', function($row){
+                        $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" data-placement="top" title="Approve" class="edit btn btn-primary btn-sm approveApp" id="approveApp"><i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i></a>';
+                        $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" data-placement="top" title="Disapprove" class="btn btn-danger btn-sm disapproveApp"><i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i></a>';
+                        return $btn;
+                    })  
+                    ->rawColumns(['actions'])
+                    ->make(true); 
+        }
+        return view('general_manager_applicant',compact('dmapplication'));
     }
 }
