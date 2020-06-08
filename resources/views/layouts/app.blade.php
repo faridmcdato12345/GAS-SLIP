@@ -62,7 +62,7 @@
         }
     </style>
 </head>
-<body >
+<body>
     <audio id="myAudio">
         <source src="{{asset('audio/notify.mp3')}}" type="audio/mpeg">
     </audio>

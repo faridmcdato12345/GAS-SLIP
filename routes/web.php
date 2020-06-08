@@ -19,11 +19,6 @@ Route::get('/', function () {
     return redirect('/home');
 });
 Auth::routes();
-Route::get('/fire', function () {
-    $id = Application::find(1);
-    event(new OrderStatusChanged($id));
-    return 'Fired';
-});
 Route::get('/register',function(){
     abort(404);
 });

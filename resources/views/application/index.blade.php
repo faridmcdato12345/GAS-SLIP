@@ -3,9 +3,9 @@
 @if(Session::has('created_user'))
 <p class="bg-success success-box" style="font-weight: bold;font-size: 16px;padding: 10px 10px;">{{session('created_user')}}</p>
 @endif
-<div style="padding-top:10%;">
+<div>
     <div>
-        <h1>APPLICANT NAME</h1>
+        <h1><strong>APPLICANT NAME</strong></h1>
         <div class="form-group">
             <div class="col-sm-offset-2">
                 {!! Form::select('user_id',$applicant ,null,['class'=>'form-control user','placeholder'=>'Click to choose applicant...']) !!}
@@ -13,7 +13,7 @@
         </div>
     </div>
     <div>
-        <h1>DEPARTMENT</h1>
+        <h1><strong>DEPARTMENT</strong></h1>
         <div class="form-group">
             <div class="col-sm-offset-2">
                 {!! Form::select('department_id',$department ,null,['class'=>'form-control department','placeholder'=>'Click to choose department...']) !!}

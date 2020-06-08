@@ -30,6 +30,10 @@ class ApplicantController extends Controller
                 
                 return Datatables::of($data)
                         ->addIndexColumn()
+                        ->editColumn('department_id', function($row){
+                            $departmentName = DB::table('departments')->where('id',$row->department_id)->value('name');
+                            return $departmentName;
+                        })
                         ->addColumn('actions', function($row){
                             $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" data-placement="top" title="Edit user" class="edit btn btn-primary btn-sm editUser "><i class="fas fa-user-edit"></i></a>';
                             $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" data-placement="top" title="Delete user" class="btn btn-danger btn-sm deleteUser"><i class="fas fa-user-minus"></i></a>';
@@ -38,7 +42,8 @@ class ApplicantController extends Controller
                         ->rawColumns(['actions'])
                         ->make(true);
             }
-            return view('admin.applicant.index',compact('data'));
+            $departments = Department::pluck('name','id')->all();
+            return view('admin.applicant.index',compact('data','departments'));
         }
         return abort(403, 'You are not authorized to visit this page');
     }
